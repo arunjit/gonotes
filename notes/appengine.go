@@ -12,7 +12,7 @@ import (
 type Datastore struct{}
 
 const (
-	kind := "N"
+	kind = "N"
 )
 
 func (s *Datastore) Search(r *http.Request, opts *SearchOptions) ([]*Note, error) {

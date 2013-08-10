@@ -24,7 +24,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // Creates a new server for the NotesService.
-func NewServer(svc NotesService) *server {
+func NewServer(svc *NotesService) *server {
 	svr := rpc.NewServer()
 	svr.RegisterCodec(json2.NewCodec(), "application/json")
 	svr.RegisterService(svc, "notes")
