@@ -23,13 +23,16 @@ var (
 func main() {
 	flag.Parse()
 	addr := fmt.Sprintf("%s:%d", *hostFlag, *portFlag)
-	server := notes.NewServer(notes.NewRedisNotesService(*redisFlag))
+
+	db := notes.NewRedisDatabase(*redisFlag)
+	svc := notes.NewNotesService(db)
+	svr := notes.NewServer(svc)
 
 	if *fcgiFlag {
 		l, _ := net.Listen("tcp", addr)
-		fcgi.Serve(l, server)
+		fcgi.Serve(l, svr)
 	} else {
-		http.Handle(notes.RPCPath, server)
+		http.Handle(notes.RPCPath, svr)
 		http.ListenAndServe(addr, nil)
 	}
 }
