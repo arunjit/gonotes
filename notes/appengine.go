@@ -6,21 +6,30 @@ import (
 	"net/http"
 )
 
-type DatastoreNotesService struct{}
+// All App Engine specific handling. Uses `appengine/datastore` to store data.
+// Initializes the RPC service and the HTTP handler server.
 
-func (s *DatastoreNotesService) Search(r *http.Request, args *SearchArgs, result *SearchResult) error {
-	return nil
+type Datastore struct{}
+
+const (
+	kind := "N"
+)
+
+func (s *Datastore) Search(r *http.Request, opts *SearchOptions) ([]*Note, error) {
+	return []*Note{}, nil
 }
 
-func (s *DatastoreNotesService) Update(r *http.Request, args *Note, result *Note) error {
-	return nil
+func (s *Datastore) Update(r *http.Request, note *Note) (*Note, error) {
+	return note, nil
 }
 
-func (s *DatastoreNotesService) Delete(r *http.Request, args *DeleteArgs, result *DeleteResult) error {
+func (s *Datastore) Delete(r *http.Request, id int64) error {
 	return nil
 }
 
 func init() {
-	server := NewServer(new(DatastoreNotesService))
-	http.Handle("/rpc", server)
+	db := new(Datastore)
+	svc := NewNotesService(db)
+	server := NewServer(svc)
+	http.Handle(RPCPath, server)
 }

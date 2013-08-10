@@ -19,7 +19,7 @@ type SearchArgs struct {
 }
 
 type SearchResult struct {
-	Notes []Note `json:"notes"`
+	Notes []*Note `json:"notes"`
 }
 
 // Create/update requests directly use `Note`.
@@ -28,4 +28,4 @@ type DeleteArgs struct {
 	ID int64 `json:"id"`
 }
 
-type DeleteResult struct{}
+type NoContent struct{}
